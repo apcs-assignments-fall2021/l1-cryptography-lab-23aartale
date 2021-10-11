@@ -1,14 +1,63 @@
 import java.util.Scanner;
 
 public class Vigenere {
+    public static char encryptCaesarLetter(char ch, int key) {
+        String str = "" + ch;
+        String enc = Caesar.encryptCaesarKey(str, key);
+        return enc.charAt(0);
+    }
+
+    public static char decryptCaesarLetter(char ch, int key) {
+        String str = "" + ch;
+        String enc = Caesar.decryptCaesarKey(str, key);
+        return enc.charAt(0);
+    }
     public static String encryptVigenere(String message, String key) {
-        return message;
-        // REPLACE THIS WITH YOUR CODE
+        String str = "";
+        int KeyIndex = 0;
+        for (int i = 0; i < message.length(); i ++){
+            char x = message.charAt(i);
+            int a;
+            if ((x >= 'A' && x <= 'Z' || x>= 'a' && x<= 'z')){
+                if (KeyIndex > key.length() - 1) {
+                    a = KeyIndex % key.length();
+                } else {
+                    a = KeyIndex % key.length();
+                }
+                KeyIndex++;
+//                System.out.println((int)message.charAt(i));
+//                System.out.println((int)message.charAt(a));
+                str += encryptCaesarLetter(message.charAt(i), key.charAt(a) - 'A');
+//                str += (char)((int)message.charAt(i) + (int)message.charAt(a));
+            } else {
+                str += message.charAt(i);
+            }
+        }
+        return str;
+
     }
 
     public static String decryptVigenere(String message, String key) {
-        return message;
-        // REPLACE THIS WITH YOUR CODE
+        String str = "";
+        int KeyIndex = 0;
+        for (int i = 0; i < message.length(); i ++){
+            char x = message.charAt(i);
+            int a;
+            if ((x >= 'A' && x <= 'Z' || x>= 'a' && x<= 'z')){
+                if (KeyIndex > key.length() - 1) {
+                    a = KeyIndex % key.length();
+                } else {
+                    a = KeyIndex % key.length();
+                }
+                KeyIndex++;
+//                System.out.println((int)message.charAt(i));
+//                System.out.println((int)message.charAt(a));
+                str += decryptCaesarLetter(message.charAt(i), key.charAt(a) - 'A');//                str += (char)((int)message.charAt(i) + (int)message.charAt(a));
+            } else {
+                str += message.charAt(i);
+            }
+        }
+        return str;
     }
 
 

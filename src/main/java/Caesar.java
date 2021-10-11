@@ -42,37 +42,38 @@ public class Caesar {
     // and returns the original String
     // Ex. decryptCaesar("Khoor, Zruog!") => "Hello, World!"
     public static String decryptCaesar(String message) {
-        String str = "";
-        for (int i = 0; i < message.length(); i++){
-            char x = message.charAt(i);
-            if (x >= 'D' && x <='Z') {
-                x -= 3;
-            }
-            else if (x == 'C') {
-                x = 'Z';
-            }
-            else if (x == 'B') {
-                x = 'Y';
-            }
-            else if (x == 'A') {
-                x = 'A';
-            }
-            else if (x >= 'd' && x <='z') {
-                x -= 3;
-            }
-            else if (x == 'c') {
-                x = 'z';
-            }
-            else if (x == 'b') {
-                x = 'y';
-            }
-            else if (x == 'a') {
-                x = 'a';
-            }
-
-            str = str + x;
-        }
-        return str;
+        return decryptCaesarKey(message, 3);
+//        String str = "";
+//        for (int i = 0; i < message.length(); i++){
+//            char x = message.charAt(i);
+//            if (x >= 'D' && x <='Z') {
+//                x -= 3;
+//            }
+//            else if (x == 'C') {
+//                x = 'Z';
+//            }
+//            else if (x == 'B') {
+//                x = 'Y';
+//            }
+//            else if (x == 'A') {
+//                x = 'A';
+//            }
+//            else if (x >= 'd' && x <='z') {
+//                x -= 3;
+//            }
+//            else if (x == 'c') {
+//                x = 'z';
+//            }
+//            else if (x == 'b') {
+//                x = 'y';
+//            }
+//            else if (x == 'a') {
+//                x = 'a';
+//            }
+//
+//            str = str + x;
+//        }
+//        return str;
     }
 
     // Given a String and a key corresponding to a shift, encrypts
@@ -83,16 +84,19 @@ public class Caesar {
         key = key % 26;
         for (int i = 0; i < message.length(); i++) {
             char x = message.charAt(i);
-            if (x + key >= 'A' && x + key <= 'Z') {
+            if (! (x >= 'A' && x <= 'Z' || x>= 'a' && x<= 'z')) {
+                x = x;
+            }
+            else if (x + key >= 'a' && x + key <= 'z') {
+                x += key;
+            }
+            else if (x + key > 'z') {
+                x -= (26 - key);
+            }
+            else if (x + key >= 'A' && x + key <= 'Z') {
                 x += key;
             }
             else if (x + key > 'Z'){
-                x -= (26 - key);
-            }
-            if (x + key >= 'a' && x + key <= 'z') {
-                x += key;
-            }
-            else if (x + key > 'z'){
                 x -= (26 - key);
             }
             str = str + x;
@@ -104,8 +108,28 @@ public class Caesar {
     // the String using the given key and returns the original String
     // Ex. decryptCaesarKey("Mjqqt, Btwqi!", 5) => "Hello, World!"
     public static String decryptCaesarKey(String message, int key) {
-        // REPLACE THIS WITH YOUR CODE
-        return message;
+        String str = "";
+        key = key % 26;
+        for (int i = 0; i < message.length(); i++) {
+            char x = message.charAt(i);
+            if (! (x >= 'A' && x <= 'Z' || x>= 'a' && x<= 'z')){
+                x = x;
+            }
+            else if (x - key >= 'A' && x - key <= 'Z') {
+                x -= key;
+            }
+            else if (x - key < 'A'){
+                x += (26 - key);
+            }
+            else if (x - key >= 'a' && x - key <= 'z') {
+                x -= key;
+            }
+            else if (x - key < 'a'){
+                x += (26 - key);
+            }
+            str = str + x;
+        }
+        return str;
     }
 
 
@@ -114,7 +138,8 @@ public class Caesar {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
 
-        System.out.println(encryptCaesarKey("HELLO WORLD", 5));
+        System.out.println(encryptCaesarKey("Hello World", 5));
+        System.out.println(decryptCaesarKey("Mjqqt Btwqi", 5));
 
         System.out.println("Would you like to \"encrypt\" or \"decrypt\" a message?");
         String command = scan.nextLine().trim().toLowerCase();
